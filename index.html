@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Leaflet CSS para el mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         /* ----- RESET Y BASE ----- */
         * {
@@ -537,7 +539,7 @@
             border: 1px solid #4f7fff55;
         }
 
-        /* ----- NUEVAS ZONAS ----- */
+        /* ----- NUEVAS ZONAS / COBERTURA ----- */
         .zones-section {
             background: #0a0e1a;
         }
@@ -577,6 +579,207 @@
             border-radius: 30px;
             display: inline-block;
             margin-top: 6px;
+        }
+
+        /* ===== NUEVA SECCIÓN: MAPEO Y DISPONIBILIDAD ===== */
+        .cobertura-section {
+            background: #101826;
+        }
+
+        .cobertura-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .cobertura-buscador {
+            background: #1a2642;
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid #24304f;
+            text-align: center;
+        }
+
+        .cobertura-buscador .search-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .cobertura-buscador input {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 20px;
+            border-radius: 60px;
+            border: none;
+            background: #0a0e1a;
+            color: #fff;
+            font-size: 1rem;
+            outline: 1px solid #2a3a5a;
+            transition: outline 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        .cobertura-buscador input:focus {
+            outline: 2px solid #4f7fff;
+        }
+        .cobertura-buscador input::placeholder {
+            color: #6a7fa0;
+        }
+
+        .cobertura-buscador .btn-search {
+            background: #4f7fff;
+            border: none;
+            padding: 14px 34px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cobertura-buscador .btn-search:hover {
+            background: #3a66e6;
+            transform: scale(1.02);
+        }
+
+        /* Resultados */
+        .resultado-cobertura {
+            margin-top: 30px;
+            display: none;
+            text-align: left;
+            background: #0a0e1a;
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid #2a3a5a;
+            animation: fadeIn 0.5s ease;
+        }
+        .resultado-cobertura.visible {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .resultado-cobertura .resumen {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .resultado-cobertura .resumen .icono-status {
+            font-size: 3rem;
+            color: #4f7fff;
+        }
+        .resultado-cobertura .resumen .info-status h4 {
+            font-size: 1.4rem;
+        }
+        .resultado-cobertura .resumen .info-status p {
+            color: #94a9d1;
+        }
+
+        .resultado-cobertura .tabla-comparativa {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .resultado-cobertura .tabla-comparativa table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #141b2b;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .resultado-cobertura .tabla-comparativa th,
+        .resultado-cobertura .tabla-comparativa td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid #1f2a44;
+        }
+        .resultado-cobertura .tabla-comparativa th {
+            background: #1a2642;
+            color: #4f7fff;
+            font-weight: 700;
+        }
+        .resultado-cobertura .tabla-comparativa td {
+            color: #c8d2e6;
+        }
+        .resultado-cobertura .tabla-comparativa .ventaja {
+            color: #6fdc8c;
+            font-weight: 600;
+        }
+        .resultado-cobertura .tabla-comparativa .desventaja {
+            color: #f28b82;
+        }
+        .resultado-cobertura .tabla-comparativa .destacado {
+            background: #4f7fff22;
+            border-left: 3px solid #4f7fff;
+        }
+
+        .resultado-cobertura .paquetes-sugeridos {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .resultado-cobertura .paquetes-sugeridos .mini-paquete {
+            background: #1a2642;
+            padding: 14px 20px;
+            border-radius: 16px;
+            border: 1px solid #24304f;
+            flex: 1 1 150px;
+            text-align: center;
+        }
+        .resultado-cobertura .paquetes-sugeridos .mini-paquete .nombre {
+            font-weight: 700;
+        }
+        .resultado-cobertura .paquetes-sugeridos .mini-paquete .precio {
+            color: #4f7fff;
+            font-weight: 700;
+        }
+        .resultado-cobertura .paquetes-sugeridos .mini-paquete .instalacion {
+            font-size: 0.8rem;
+            color: #94a9d1;
+        }
+
+        .resultado-cobertura .mensaje-confianza {
+            margin-top: 20px;
+            background: #1a2642;
+            padding: 16px 24px;
+            border-radius: 16px;
+            border-left: 4px solid #4f7fff;
+            color: #b0c4e8;
+        }
+        .resultado-cobertura .mensaje-confianza i {
+            color: #4f7fff;
+            margin-right: 10px;
+        }
+
+        /* Mapa estático (placeholder) */
+        .mapa-placeholder {
+            width: 100%;
+            height: 200px;
+            background: #0a0e1a;
+            border-radius: 16px;
+            border: 1px solid #24304f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6a7fa0;
+            font-size: 1.2rem;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .mapa-placeholder i {
+            font-size: 2.5rem;
+            color: #4f7fff;
         }
 
         /* ----- FOOTER ----- */
@@ -700,6 +903,17 @@
             .footer-links {
                 gap: 30px;
             }
+            .cobertura-buscador .search-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .cobertura-buscador input {
+                min-width: unset;
+            }
+            .resultado-cobertura .resumen {
+                flex-direction: column;
+                text-align: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -735,6 +949,7 @@
                 <a href="#paquetes">Paquetes</a>
                 <a href="#promociones">Promociones</a>
                 <a href="#zonas">Cobertura</a>
+                <a href="#disponibilidad">¿Fibra o Antena?</a>
                 <a href="#contacto" class="nav-cta">Contratar</a>
             </div>
         </div>
@@ -744,11 +959,11 @@
     <section class="hero" id="inicio">
         <div class="container">
             <div class="hero-text">
-                <h1>Internet que <span>conecta</span>&nbsp;Aculco de Espinoza</h1>
+                <h1>Internet que <span>conecta</span> Arroyo Zarco</h1>
                 <p>Más de 10 años de experiencia, ahora con fibra óptica de hasta 350 Mbps. Instalación profesional con 100 mts de cable incluido.</p>
                 <div class="hero-buttons">
                     <a href="#paquetes" class="btn-primary"><i class="fas fa-rocket"></i> Ver paquetes</a>
-                    <a href="#historia" class="btn-outline"><i class="fas fa-clock"></i> Nuestra historia</a>
+                    <a href="#disponibilidad" class="btn-outline"><i class="fas fa-map-marked-alt"></i> ¿Fibra o Antena?</a>
                 </div>
             </div>
             <div class="hero-image">
@@ -946,7 +1161,7 @@
                 <div class="promo-item">
                     <i class="fas fa-percent"></i>
                     <h4>Pago anual</h4>
-                    <p>Paga por adelantado 12 meses y obtén 1 meses gratis en tu plan.</p>
+                    <p>Paga por adelantado 12 meses y obtén 2 meses gratis en tu plan.</p>
                     <span class="tag">Ahorro garantizado</span>
                 </div>
                 <div class="promo-item">
@@ -983,23 +1198,55 @@
                 </div>
                 <div class="zone-item">
                     <i class="fas fa-map-pin"></i>
-                    <div class="zone-name">Tixhiñu</div>
+                    <div class="zone-name">Las Palmeras</div>
                     <span class="status">Próximamente</span>
                 </div>
                 <div class="zone-item">
                     <i class="fas fa-map-pin"></i>
-                    <div class="zone-name">Cabresteros</div>
+                    <div class="zone-name">El Mirador</div>
                     <span class="status">Próximamente</span>
                 </div>
                 <div class="zone-item">
                     <i class="fas fa-map-pin"></i>
-                    <div class="zone-name">Los Ailes</div>
+                    <div class="zone-name">Lomas Verdes</div>
                     <span class="status">En estudio</span>
                 </div>
                 <div class="zone-item">
                     <i class="fas fa-map-pin"></i>
-                    <div class="zone-name">Aculco Centro</div>
+                    <div class="zone-name">Villa Real</div>
                     <span class="status">Disponible</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ NUEVA SECCIÓN: MAPEO Y DISPONIBILIDAD ============ -->
+    <section class="cobertura-section" id="disponibilidad">
+        <div class="container">
+            <h2 class="section-title">¿Fibra o Antena en tu <span>domicilio?</span></h2>
+            <p class="section-subtitle">Ingresa tu colonia o código postal y descubre qué tecnología está disponible en tu zona, costos y paquetes recomendados.</p>
+
+            <div class="cobertura-wrapper">
+                <!-- Buscador -->
+                <div class="cobertura-buscador">
+                    <div class="search-box">
+                        <input type="text" id="direccionInput" placeholder="Ej. Arroyo Zarco Centro, 51350" />
+                        <button class="btn-search" id="btnBuscar"><i class="fas fa-search"></i> Consultar</button>
+                    </div>
+                    <p style="color: #6a7fa0; font-size: 0.85rem; margin-top: 12px;">
+                        <i class="fas fa-info-circle"></i> Simulación basada en colonias disponibles. 
+                    </p>
+                </div>
+
+                <!-- Resultados -->
+                <div id="resultadoCobertura" class="resultado-cobertura">
+                    <!-- Se llena dinámicamente con JS -->
+                </div>
+
+                <!-- Mapa estático ilustrativo -->
+                <div class="mapa-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Mapa de cobertura — Arroyo Zarco y alrededores</span>
                 </div>
             </div>
         </div>
@@ -1015,7 +1262,7 @@
                         <span>Enlases & Sistemas</span>
                         <small>Inteligentes</small>
                     </div>
-                    <p>Conectando Aculco desde 2013. Ahora con fibra óptica de alta velocidad y antena confiable.</p>
+                    <p>Conectando Arroyo Zarco desde 2013. Ahora con fibra óptica de alta velocidad y antena confiable.</p>
                 </div>
                 <div class="footer-links">
                     <div>
@@ -1024,12 +1271,13 @@
                         <a href="#paquetes">Paquetes</a>
                         <a href="#promociones">Promociones</a>
                         <a href="#zonas">Cobertura</a>
+                        <a href="#disponibilidad">¿Fibra o Antena?</a>
                     </div>
                     <div>
                         <h5>Contacto</h5>
                         <a href="#"><i class="fas fa-phone"></i> 712 123 4567</a>
                         <a href="#"><i class="fas fa-envelope"></i> hola@enlases.mx</a>
-                        <a href="#"><i class="fas fa-map-marker-alt"></i>&nbsp;Aculco Centro, Méx.</a>
+                        <a href="#"><i class="fas fa-map-marker-alt"></i> Arroyo Zarco, Méx.</a>
                     </div>
                     <div>
                         <h5>Redes</h5>
@@ -1056,7 +1304,6 @@
             navLinks.classList.toggle('open');
         });
 
-        // Cerrar menú al hacer click en un enlace
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('open');
@@ -1097,6 +1344,241 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        // ---- LÓGICA DE COBERTURA (SIMULADA) ----
+        // Base de datos de colonias y su disponibilidad
+        const coberturaDB = {
+            'arroyo zarco centro': { fibra: true, antena: true, zonas: ['Centro', 'Zona 1'] },
+            'arroyo zarco norte': { fibra: true, antena: true, zonas: ['Norte', 'Zona 2'] },
+            'las palmeras': { fibra: false, antena: true, zonas: ['Palmeras'] },
+            'el mirador': { fibra: false, antena: true, zonas: ['Mirador'] },
+            'lomas verdes': { fibra: false, antena: false, zonas: [] },
+            'villa real': { fibra: true, antena: true, zonas: ['Villa Real'] },
+            'san jose': { fibra: true, antena: true, zonas: ['San José'] },
+            'la estación': { fibra: false, antena: true, zonas: ['Estación'] },
+        };
+
+        // Función para normalizar texto
+        function normalize(str) {
+            return str.toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        // Función para buscar coincidencia parcial
+        function findColony(query) {
+            const normalized = normalize(query);
+            if (!normalized) return null;
+
+            // Búsqueda exacta o parcial
+            for (const [key, data] of Object.entries(coberturaDB)) {
+                if (normalized.includes(key) || key.includes(normalized)) {
+                    return { key, data };
+                }
+                // Buscar en las zonas
+                for (const zona of data.zonas) {
+                    if (normalized.includes(zona.toLowerCase()) || zona.toLowerCase().includes(normalized)) {
+                        return { key, data };
+                    }
+                }
+            }
+            return null;
+        }
+
+        // Función para obtener paquetes según tecnología
+        function getPaquetes(tecnologia) {
+            if (tecnologia === 'fibra') {
+                return [
+                    { nombre: 'Fibra 20', precio: '$300/mes', instalacion: '$1,500 (100 mts cable)' },
+                    { nombre: 'Fibra 50', precio: '$450/mes', instalacion: '$1,500 (100 mts cable)' },
+                    { nombre: 'Fibra 100', precio: '$600/mes', instalacion: '$1,500 (100 mts cable)' },
+                    { nombre: 'Fibra 200', precio: '$800/mes', instalacion: '$1,500 (100 mts cable)' },
+                    { nombre: 'Fibra 350', precio: '$1,000/mes', instalacion: '$1,500 (100 mts cable)' },
+                ];
+            } else if (tecnologia === 'antena') {
+                return [
+                    { nombre: 'Antena 10', precio: '$250/mes', instalacion: '$2,800' },
+                    { nombre: 'Antena 20', precio: '$350/mes', instalacion: '$2,800' },
+                    { nombre: 'Antena 30', precio: '$450/mes', instalacion: '$2,800' },
+                ];
+            }
+            return [];
+        }
+
+        // Renderizar resultados
+        function renderResultados(colonyKey, data) {
+            const container = document.getElementById('resultadoCobertura');
+            container.classList.add('visible');
+
+            const tieneFibra = data.fibra;
+            const tieneAntena = data.antena;
+
+            let tecnologias = [];
+            if (tieneFibra) tecnologias.push('Fibra Óptica');
+            if (tieneAntena) tecnologias.push('Antena');
+            const techStr = tecnologias.join(' y ');
+
+            let icono = 'fa-wifi';
+            let color = '#4f7fff';
+            if (tieneFibra && tieneAntena) { icono = 'fa-check-circle';
+                color = '#6fdc8c'; } else if (tieneFibra) { icono = 'fa-fiber';
+                color = '#6fdc8c'; } else if (tieneAntena) { icono = 'fa-satellite-dish';
+                color = '#f9a825'; } else { icono = 'fa-times-circle';
+                color = '#f28b82'; }
+
+            let html = `
+                <div class="resumen">
+                    <div class="icono-status" style="color:${color}">
+                        <i class="fas ${icono}"></i>
+                    </div>
+                    <div class="info-status">
+                        <h4>${colonyKey.charAt(0).toUpperCase() + colonyKey.slice(1)}</h4>
+                        <p><strong>Tecnología disponible:</strong> ${techStr || 'Ninguna por el momento'}</p>
+                    </div>
+                </div>
+            `;
+
+            // Si no hay cobertura
+            if (!tieneFibra && !tieneAntena) {
+                html += `
+                    <div class="mensaje-confianza">
+                        <i class="fas fa-clock"></i> Estamos trabajando para llevar fibra óptica a tu zona. Mientras tanto, consulta nuestras promociones o déjanos tus datos para avisarte.
+                    </div>
+                `;
+                container.innerHTML = html;
+                return;
+            }
+
+            // Tabla comparativa (siempre visible para educar)
+            html += `
+                <div class="tabla-comparativa">
+                    <h4 style="margin-bottom:12px; color:#fff;">Comparativa: Fibra Óptica vs Antena</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Característica</th>
+                                <th>Fibra Óptica</th>
+                                <th>Antena</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Velocidad máxima</td>
+                                <td class="ventaja">Hasta 350 Mbps</td>
+                                <td>Hasta 30 Mbps</td>
+                            </tr>
+                            <tr>
+                                <td>Estabilidad</td>
+                                <td class="ventaja">Alta, sin interferencias</td>
+                                <td class="desventaja">Puede verse afectada por clima</td>
+                            </tr>
+                            <tr>
+                                <td>Latencia</td>
+                                <td class="ventaja">Muy baja (ideal para gaming)</td>
+                                <td>Media</td>
+                            </tr>
+                            <tr>
+                                <td>Instalación</td>
+                                <td class="ventaja">$1,500 (100 mts cable)</td>
+                                <td>$2,800</td>
+                            </tr>
+                            <tr>
+                                <td>Simetría</td>
+                                <td class="ventaja">Subida y bajada iguales</td>
+                                <td>Asimétrica (menor subida)</td>
+                            </tr>
+                            <tr>
+                                <td>Recomendación</td>
+                                <td class="ventaja"><i class="fas fa-star"></i> Ideal para hogares y negocios</td>
+                                <td>Buena para zonas sin fibra</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            // Paquetes sugeridos
+            html += `<div class="paquetes-sugeridos"><h4 style="width:100%; color:#fff;">Paquetes disponibles en tu zona:</h4>`;
+            if (tieneFibra) {
+                const paqFibra = getPaquetes('fibra');
+                paqFibra.forEach(p => {
+                    html += `
+                        <div class="mini-paquete">
+                            <div class="nombre">${p.nombre}</div>
+                            <div class="precio">${p.precio}</div>
+                            <div class="instalacion"><i class="fas fa-tools"></i> ${p.instalacion}</div>
+                        </div>
+                    `;
+                });
+            }
+            if (tieneAntena) {
+                const paqAntena = getPaquetes('antena');
+                paqAntena.forEach(p => {
+                    html += `
+                        <div class="mini-paquete">
+                            <div class="nombre">${p.nombre}</div>
+                            <div class="precio">${p.precio}</div>
+                            <div class="instalacion"><i class="fas fa-tools"></i> ${p.instalacion}</div>
+                        </div>
+                    `;
+                });
+            }
+            html += `</div>`;
+
+            // Mensaje de confianza y auge de fibra
+            html += `
+                <div class="mensaje-confianza">
+                    <i class="fas fa-lightbulb"></i> 
+                    <strong>¿Por qué elegir fibra óptica?</strong> Mayor velocidad, estabilidad, simetría y menor latencia. 
+                    Es la tecnología del futuro, y en <strong>Enlases y Sistemas Inteligentes</strong> la tenemos disponible en tu zona. 
+                    ¡Únete a la revolución de la fibra!
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Evento de búsqueda
+        document.getElementById('btnBuscar').addEventListener('click', function() {
+            const input = document.getElementById('direccionInput');
+            const query = input.value.trim();
+            if (!query) {
+                alert('Por favor, ingresa una colonia o código postal.');
+                return;
+            }
+
+            const resultado = findColony(query);
+            const container = document.getElementById('resultadoCobertura');
+
+            if (resultado) {
+                renderResultados(resultado.key, resultado.data);
+            } else {
+                // No encontrado: mostrar mensaje genérico
+                container.classList.add('visible');
+                container.innerHTML = `
+                    <div class="resumen">
+                        <div class="icono-status" style="color:#f9a825;">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="info-status">
+                            <h4>No encontramos "${query}"</h4>
+                            <p>Actualmente no tenemos datos de cobertura para esa zona. 
+                            Pero estamos expandiendo nuestra red. <br> 
+                            <strong>¡Pronto llegaremos!</strong></p>
+                        </div>
+                    </div>
+                    <div class="mensaje-confianza">
+                        <i class="fas fa-info-circle"></i> 
+                        Si deseas más información, contáctanos y te asesoraremos.
+                    </div>
+                `;
+            }
+        });
+
+        // Permitir búsqueda con Enter
+        document.getElementById('direccionInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('btnBuscar').click();
+            }
         });
 
         console.log('¡Bienvenido a Enlases y Sistemas Inteligentes!');
