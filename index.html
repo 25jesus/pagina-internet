@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaNet Aculco · Internet de Vanguardia</title>
+    <!-- Fuentes e íconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ----- RESET Y BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0e1a;
+            color: #eef2ff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ----- SCROLLBAR ----- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #141b2b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4f7fff;
+            border-radius: 10px;
+        }
+
+        /* ----- NAVBAR ----- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 14, 26, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(79, 127, 255, 0.15);
+            padding: 14px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+        .logo i {
+            color: #4f7fff;
+            font-size: 2rem;
+        }
+        .logo span {
+            background: linear-gradient(135deg, #4f7fff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .nav-links a {
+            color: #c8d2e6;
+            transition: color 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: #4f7fff;
+            transition: width 0.3s;
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: #4f7fff;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: #fff !important;
+            font-weight: 700;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .nav-cta:hover {
+            background: #3a66e6;
+            transform: scale(1.03);
+        }
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        /* Hamburguesa */
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #c8d2e6;
+        }
+
+        /* ----- HERO ----- */
+        .hero {
+            padding: 140px 0 80px;
+            background: radial-gradient(circle at 30% 20%, #1a2642, #0a0e1a 70%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(79, 127, 255, 0.08) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            border-radius: 50%;
+        }
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-text h1 {
+            font-size: 3.4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero-text h1 span {
+            background: linear-gradient(135deg, #4f7fff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #b0c4e8;
+            max-width: 500px;
+            margin-bottom: 30px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: #4f7fff;
+            padding: 14px 34px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: #fff;
+            transition: background 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-primary:hover {
+            background: #3a66e6;
+            transform: translateY(-3px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #4f7fff;
+            padding: 12px 30px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: #fff;
+            transition: background 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-outline:hover {
+            background: rgba(79, 127, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-image .circle-graphic {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #4f7fff, #a78bfa, #4f7fff);
+            animation: spin 20s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 80px rgba(79, 127, 255, 0.3);
+        }
+        .hero-image .circle-graphic i {
+            font-size: 7rem;
+            color: #0a0e1a;
+            background: #0a0e1a;
+            padding: 30px;
+            border-radius: 50%;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ----- SECCIONES COMUNES ----- */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .section-title span {
+            background: linear-gradient(135deg, #4f7fff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #94a9d1;
+            max-width: 640px;
+            margin: 0 auto 50px;
+            font-size: 1.1rem;
+        }
+
+        /* ----- HISTORIA (Línea de tiempo) ----- */
+        .history-section {
+            background: #101826;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+            padding-left: 40px;
+            border-left: 3px solid #4f7fff;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline-item {
+            background: #1a2642;
+            padding: 24px 30px;
+            border-radius: 16px;
+            border-left: 4px solid #4f7fff;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .timeline-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 30px rgba(79, 127, 255, 0.15);
+        }
+        .timeline-item .year {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #4f7fff;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .timeline-item .content {
+            color: #c8d2e6;
+        }
+        .timeline-item .content strong {
+            color: #fff;
+        }
+        .timeline-item .badge {
+            display: inline-block;
+            background: #4f7fff22;
+            color: #4f7fff;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 8px;
+            border: 1px solid #4f7fff55;
+        }
+
+        /* ----- PAQUETES (Tabs) ----- */
+        .packages-section {
+            background: #0a0e1a;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: #1a2642;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 60px;
+            color: #b0c4e8;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid transparent;
+        }
+        .tab-btn.active {
+            background: #4f7fff;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(79, 127, 255, 0.4);
+            border-color: #4f7fff;
+        }
+        .tab-btn:hover:not(.active) {
+            background: #24304f;
+            color: #fff;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 30px;
+            display: none;
+        }
+        .packages-grid.active {
+            display: grid;
+        }
+
+        .package-card {
+            background: #141b2b;
+            border-radius: 24px;
+            padding: 30px 24px;
+            border: 1px solid #1f2a44;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: #4f7fff;
+        }
+        .package-card .icon {
+            font-size: 2.2rem;
+            color: #4f7fff;
+            margin-bottom: 10px;
+        }
+        .package-card .name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .package-card .speed {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 10px 0 4px;
+        }
+        .package-card .speed small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #94a9d1;
+        }
+        .package-card .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4f7fff;
+            margin: 8px 0 16px;
+        }
+        .package-card .price small {
+            font-size: 1rem;
+            color: #94a9d1;
+            font-weight: 400;
+        }
+        .package-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0 24px;
+        }
+        .package-card ul li {
+            padding: 6px 0;
+            color: #b0c4e8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .package-card ul li i {
+            color: #4f7fff;
+            width: 20px;
+            text-align: center;
+        }
+        .package-card .btn-package {
+            width: 100%;
+            text-align: center;
+            background: #4f7fff;
+            border: none;
+            padding: 12px;
+            border-radius: 60px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .package-card .btn-package:hover {
+            background: #3a66e6;
+            transform: scale(1.02);
+        }
+        .package-card.popular {
+            border-color: #4f7fff;
+            background: linear-gradient(145deg, #1a2642, #141b2b);
+        }
+        .package-card.popular::before {
+            content: '★ POPULAR';
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #4f7fff;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ----- PROMOCIONES ----- */
+        .promo-section {
+            background: #101826;
+        }
+
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .promo-item {
+            background: #1a2642;
+            border-radius: 20px;
+            padding: 30px 24px;
+            text-align: center;
+            border: 1px solid #24304f;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .promo-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 30px rgba(79, 127, 255, 0.15);
+        }
+        .promo-item i {
+            font-size: 2.8rem;
+            color: #4f7fff;
+            margin-bottom: 12px;
+        }
+        .promo-item h4 {
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+        }
+        .promo-item p {
+            color: #94a9d1;
+        }
+        .promo-item .tag {
+            display: inline-block;
+            background: #4f7fff22;
+            color: #4f7fff;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-top: 12px;
+            border: 1px solid #4f7fff55;
+        }
+
+        /* ----- NUEVAS ZONAS ----- */
+        .zones-section {
+            background: #0a0e1a;
+        }
+
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .zone-item {
+            background: #141b2b;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #1f2a44;
+            transition: all 0.3s;
+        }
+        .zone-item:hover {
+            border-color: #4f7fff;
+            background: #1a2642;
+            transform: translateY(-4px);
+        }
+        .zone-item i {
+            font-size: 2rem;
+            color: #4f7fff;
+            margin-bottom: 8px;
+        }
+        .zone-item .zone-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .zone-item .status {
+            font-size: 0.85rem;
+            color: #6fdc8c;
+            background: #6fdc8c22;
+            padding: 2px 12px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        /* ----- FOOTER ----- */
+        .footer {
+            background: #060a14;
+            padding: 50px 0 30px;
+            border-top: 1px solid #1a2642;
+        }
+        .footer .container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .footer-top .brand {
+            max-width: 300px;
+        }
+        .footer-top .brand .logo {
+            font-size: 1.8rem;
+        }
+        .footer-top .brand p {
+            color: #94a9d1;
+            margin-top: 12px;
+        }
+        .footer-links {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .footer-links h5 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .footer-links a {
+            display: block;
+            color: #94a9d1;
+            margin-bottom: 6px;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: #4f7fff;
+        }
+        .footer-bottom {
+            border-top: 1px solid #1a2642;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            color: #6a7fa0;
+            font-size: 0.9rem;
+        }
+
+        /* ----- RESPONSIVE ----- */
+        @media (max-width: 992px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .hero-image .circle-graphic {
+                width: 220px;
+                height: 220px;
+            }
+            .hero-image .circle-graphic i {
+                font-size: 4.5rem;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                gap: 16px;
+                padding: 20px 0;
+                background: #0a0e1a;
+                border-radius: 16px;
+                margin-top: 16px;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .navbar .container {
+                flex-wrap: wrap;
+            }
+            .hero-text h1 {
+                font-size: 2.6rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .timeline {
+                padding-left: 20px;
+            }
+            .timeline-item {
+                padding: 16px 20px;
+            }
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-top {
+                flex-direction: column;
+            }
+            .footer-links {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            .btn-primary,
+            .btn-outline {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            .package-card .speed {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ NAVBAR ============ -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-satellite-dish"></i>
+                <span>NovaNet</span>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#historia">Historia</a>
+                <a href="#paquetes">Paquetes</a>
+                <a href="#promociones">Promociones</a>
+                <a href="#zonas">Nuevas Zonas</a>
+                <a href="#contacto" class="nav-cta">Contratar</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <div class="hero-text">
+                <h1>Internet que <span>conecta</span> Aculco</h1>
+                <p>Más de 10 años de experiencia, ahora con fibra óptica de última generación para tu hogar o negocio.</p>
+                <div class="hero-buttons">
+                    <a href="#paquetes" class="btn-primary"><i class="fas fa-rocket"></i> Ver paquetes</a>
+                    <a href="#historia" class="btn-outline"><i class="fas fa-clock"></i> Conoce nuestra historia</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="circle-graphic">
+                    <i class="fas fa-wifi"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ HISTORIA ============ -->
+    <section class="history-section" id="historia">
+        <div class="container">
+            <h2 class="section-title">Nuestra <span>Historia</span></h2>
+            <p class="section-subtitle">Desde 2013 llevando conectividad a Aculco de Espinosa, evolucionando con la tecnología.</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="year">2013</span>
+                    <div class="content">
+                        <strong>Nacimiento de NovaNet</strong> — Comenzamos ofreciendo internet por antena en zonas rurales, llevando señal a donde otros no llegaban.
+                    </div>
+                    <span class="badge"><i class="fas fa-antenna"></i> Antena</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2016</span>
+                    <div class="content">
+                        <strong>Expansión y cobertura</strong> — Llegamos a más colonias y comunidades, consolidando nuestra red inalámbrica con equipos de última generación.
+                    </div>
+                    <span class="badge"><i class="fas fa-signal"></i> Cobertura +</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2019</span>
+                    <div class="content">
+                        <strong>Primera fibra óptica</strong> — Instalamos los primeros kilómetros de fibra en el centro de Aculco, ofreciendo velocidades simétricas.
+                    </div>
+                    <span class="badge"><i class="fas fa-fiber"></i> Fibra Óptica</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2022</span>
+                    <div class="content">
+                        <strong>Red híbrida</strong> — Combinamos antena y fibra para dar cobertura total, incluso en las zonas más alejadas del municipio.
+                    </div>
+                    <span class="badge"><i class="fas fa-sync-alt"></i> Híbrido</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2026</span>
+                    <div class="content">
+                        <strong>NovaNet 2.0</strong> — Lanzamos planes de fibra óptica de hasta 1 Gbps, con instalación gratuita y soporte 24/7. ¡El futuro ya está aquí!
+                    </div>
+                    <span class="badge"><i class="fas fa-star"></i> Innovación</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PAQUETES ============ -->
+    <section class="packages-section" id="paquetes">
+        <div class="container">
+            <h2 class="section-title">Nuestros <span>Paquetes</span></h2>
+            <p class="section-subtitle">Elige el plan que mejor se adapte a tus necesidades, con tecnología de punta y precios accesibles.</p>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="fibra"><i class="fas fa-fiber"></i> Fibra Óptica</button>
+                <button class="tab-btn" data-tab="antena"><i class="fas fa-satellite-dish"></i> Internet por Antena</button>
+            </div>
+
+            <!-- Paquetes Fibra -->
+            <div class="packages-grid active" id="tab-fibra">
+                <div class="package-card">
+                    <div class="icon"><i class="fas fa-wifi"></i></div>
+                    <div class="name">Básico Fibra</div>
+                    <div class="speed">100 <small>Mbps</small></div>
+                    <div class="price">$450 <small>/mes</small></div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Instalación gratuita</li>
+                        <li><i class="fas fa-check-circle"></i> Router Wi-Fi 6</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte técnico 24/7</li>
+                    </ul>
+                    <button class="btn-package">Contratar</button>
+                </div>
+                <div class="package-card popular">
+                    <div class="icon"><i class="fas fa-rocket"></i></div>
+                    <div class="name">Fibra Plus</div>
+                    <div class="speed">300 <small>Mbps</small></div>
+                    <div class="price">$750 <small>/mes</small></div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Instalación gratuita</li>
+                        <li><i class="fas fa-check-circle"></i> Router Wi-Fi 6 + repetidor</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte prioritario</li>
+                        <li><i class="fas fa-check-circle"></i> 1 mes de Disney+</li>
+                    </ul>
+                    <button class="btn-package">Contratar</button>
+                </div>
+                <div class="package-card">
+                    <div class="icon"><i class="fas fa-server"></i></div>
+                    <div class="name">Fibra Pro</div>
+                    <div class="speed">1 <small>Gbps</small></div>
+                    <div class="price">$1,200 <small>/mes</small></div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Instalación gratuita</li>
+                        <li><i class="fas fa-check-circle"></i> Router Wi-Fi 6E</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte VIP 24/7</li>
+                        <li><i class="fas fa-check-circle"></i> 3 meses de streaming</li>
+                    </ul>
+                    <button class="btn-package">Contratar</button>
+                </div>
+            </div>
+
+            <!-- Paquetes Antena -->
+            <div class="packages-grid" id="tab-antena">
+                <div class="package-card">
+                    <div class="icon"><i class="fas fa-signal"></i></div>
+                    <div class="name">Antena Básica</div>
+                    <div class="speed">20 <small>Mbps</small></div>
+                    <div class="price">$300 <small>/mes</small></div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Instalación sencilla</li>
+                        <li><i class="fas fa-check-circle"></i> Antena exterior</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte estándar</li>
+                    </ul>
+                    <button class="btn-package">Contratar</button>
+                </div>
+                <div class="package-card">
+                    <div class="icon"><i class="fas fa-signal"></i></div>
+                    <div class="name">Antena Plus</div>
+                    <div class="speed">40 <small>Mbps</small></div>
+                    <div class="price">$500 <small>/mes</small></div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Instalación gratuita</li>
+                        <li><i class="fas fa-check-circle"></i> Antena de alto rendimiento</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte prioritario</li>
+                    </ul>
+                    <button class="btn-package">Contratar</button>
+                </div>
+                <div class="package-card">
+                    <div class="icon"><i class="fas fa-signal"></i></div>
+                    <div class="name">Antena Max</div>
+                    <div class="speed">60 <small>Mbps</small></div>
+                    <div class="price">$700 <small>/mes</small></div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Instalación gratuita</li>
+                        <li><i class="fas fa-check-circle"></i> Antena + repetidor</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte 24/7</li>
+                        <li><i class="fas fa-check-circle"></i> Enlace dedicado</li>
+                    </ul>
+                    <button class="btn-package">Contratar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PROMOCIONES ============ -->
+    <section class="promo-section" id="promociones">
+        <div class="container">
+            <h2 class="section-title">Promociones <span>Especiales</span></h2>
+            <p class="section-subtitle">Aprovecha descuentos y beneficios exclusivos por tiempo limitado.</p>
+            <div class="promo-grid">
+                <div class="promo-item">
+                    <i class="fas fa-gift"></i>
+                    <h4>Instalación Gratis</h4>
+                    <p>Contrata cualquier plan de fibra óptica y la instalación es totalmente gratuita.</p>
+                    <span class="tag">Válido hasta 31/07/2026</span>
+                </div>
+                <div class="promo-item">
+                    <i class="fas fa-percent"></i>
+                    <h4>20% de descuento</h4>
+                    <p>Paga por adelantado 6 meses y obtén un 20% de descuento en tu plan.</p>
+                    <span class="tag">Solo nuevos clientes</span>
+                </div>
+                <div class="promo-item">
+                    <i class="fas fa-tv"></i>
+                    <h4>Streaming incluido</h4>
+                    <p>Los planes Pro incluyen 3 meses de servicio de streaming gratuito.</p>
+                    <span class="tag">Disponible en fibra</span>
+                </div>
+                <div class="promo-item">
+                    <i class="fas fa-users"></i>
+                    <h4>Recomienda y gana</h4>
+                    <p>Recomienda a un amigo y ambos reciben un mes gratis en su plan.</p>
+                    <span class="tag">Sin límite de referidos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ NUEVAS ZONAS ============ -->
+    <section class="zones-section" id="zonas">
+        <div class="container">
+            <h2 class="section-title">Nuevas <span>Zonas</span></h2>
+            <p class="section-subtitle">Estamos expandiendo nuestra cobertura de fibra óptica. ¡Pronto en tu colonia!</p>
+            <div class="zones-grid">
+                <div class="zone-item">
+                    <i class="fas fa-map-pin"></i>
+                    <div class="zone-name">Centro Histórico</div>
+                    <span class="status">Disponible</span>
+                </div>
+                <div class="zone-item">
+                    <i class="fas fa-map-pin"></i>
+                    <div class="zone-name">Las Flores</div>
+                    <span class="status">Disponible</span>
+                </div>
+                <div class="zone-item">
+                    <i class="fas fa-map-pin"></i>
+                    <div class="zone-name">San José</div>
+                    <span class="status">Próximamente</span>
+                </div>
+                <div class="zone-item">
+                    <i class="fas fa-map-pin"></i>
+                    <div class="zone-name">La Estación</div>
+                    <span class="status">Próximamente</span>
+                </div>
+                <div class="zone-item">
+                    <i class="fas fa-map-pin"></i>
+                    <div class="zone-name">El Mirador</div>
+                    <span class="status">En estudio</span>
+                </div>
+                <div class="zone-item">
+                    <i class="fas fa-map-pin"></i>
+                    <div class="zone-name">Lomas Verdes</div>
+                    <span class="status">Disponible</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer" id="contacto">
+        <div class="container">
+            <div class="footer-top">
+                <div class="brand">
+                    <div class="logo">
+                        <i class="fas fa-satellite-dish"></i>
+                        <span>NovaNet</span>
+                    </div>
+                    <p>Conectando Aculco de Espinosa desde 2013. Ahora con fibra óptica de alta velocidad.</p>
+                </div>
+                <div class="footer-links">
+                    <div>
+                        <h5>Navegación</h5>
+                        <a href="#historia">Historia</a>
+                        <a href="#paquetes">Paquetes</a>
+                        <a href="#promociones">Promociones</a>
+                        <a href="#zonas">Nuevas Zonas</a>
+                    </div>
+                    <div>
+                        <h5>Contacto</h5>
+                        <a href="#"><i class="fas fa-phone"></i> 712 123 4567</a>
+                        <a href="#"><i class="fas fa-envelope"></i> hola@novanet.mx</a>
+                        <a href="#"><i class="fas fa-map-marker-alt"></i> Aculco de Espinosa, Méx.</a>
+                    </div>
+                    <div>
+                        <h5>Redes</h5>
+                        <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                        <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                        <a href="#"><i class="fab fa-tiktok"></i> TikTok</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 NovaNet Aculco. Todos los derechos reservados.</span>
+                <span>Hecho con <i class="fas fa-heart" style="color:#4f7fff;"></i> para nuestra comunidad</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        // ---- Menú hamburguesa ----
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Cerrar menú al hacer click en un enlace
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // ---- Tabs de paquetes ----
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanes = {
+            fibra: document.getElementById('tab-fibra'),
+            antena: document.getElementById('tab-antena')
+        };
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Quitar active de todos
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Ocultar todos los grids
+                document.querySelectorAll('.packages-grid').forEach(grid => {
+                    grid.classList.remove('active');
+                });
+
+                // Mostrar el seleccionado
+                const tab = btn.dataset.tab;
+                if (tabPanes[tab]) {
+                    tabPanes[tab].classList.add('active');
+                }
+            });
+        });
+
+        // ---- Smooth scroll para enlaces internos ----
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ---- Efecto de aparición al hacer scroll (opcional, solo para mejorar) ----
+        // Podríamos agregar Intersection Observer, pero por simplicidad lo dejamos así.
+        console.log('¡Bienvenido a NovaNet Aculco!');
+    </script>
+
+</body>
+</html>
